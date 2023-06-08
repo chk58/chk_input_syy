@@ -1,6 +1,9 @@
-echo "[$0] started, process id: $$, time is `date`"
+# /data/local/tmp/chk_input_syy.sh
+
+echo "[$0] $1 started, process id: $$, time is `date`"
 
 handleInput() {
+  nowTime=`date +%Y-%m-%d_%H-%M-%S`
   echo "starting to input, now is `date +%Y-%m-%d\ %H:%M:%S\ 星期%w`"
   echo "waking up the phone..."
   input keyevent 82
@@ -13,7 +16,10 @@ handleInput() {
   sleep 2
   echo "restarting the app..."
   am start -n com.alibaba.android.rimet/.biz.LaunchHomeActivity
-  sleep 10
+  sleep 15
+  echo "screencap before tapping..."
+  mkdir /sdcard/chk_input_syy
+  screencap /sdcard/chk_input_syy/${nowTime}_begin.png
   echo "tapping step 1..."
   input tap 540 2300
   sleep 5
@@ -22,8 +28,15 @@ handleInput() {
   sleep 5
   echo "tapping step 3..."
   input tap 540 1400
+  echo "screencap after tapping..."
+  screencap /sdcard/chk_input_syy/${nowTime}_end.png
   echo "input all done!!!!!!!"
 }
+
+if [ "$1" -eq "1" ]; then
+  handleInput
+  exit 0
+fi
 
 while [ "a" != "b" ]
 do
